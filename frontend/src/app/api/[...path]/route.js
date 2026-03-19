@@ -4,9 +4,8 @@ async function handler(request, { params }) {
   const { path } = await params;
   const targetPath = path.join("/");
   const url = new URL(request.url);
-  // Preserve trailing slash to avoid Django APPEND_SLASH redirect loops
-  const hasTrailingSlash = url.pathname.endsWith("/");
-  const target = `${BACKEND_URL}/api/${targetPath}${hasTrailingSlash ? "/" : ""}${url.search}`;
+  // Always add trailing slash — Django expects it on every endpoint
+  const target = `${BACKEND_URL}/api/${targetPath}/${url.search}`;
 
   const headers = new Headers();
   // Forward safe headers
@@ -22,7 +21,6 @@ async function handler(request, { params }) {
   const fetchOptions = {
     method: request.method,
     headers,
-    redirect: "manual",
   };
 
   // Forward body for non-GET/HEAD requests
