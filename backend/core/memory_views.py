@@ -27,7 +27,7 @@ def _safe_filename(original_name):
     ext = ""
     if original_name and "." in original_name:
         ext = original_name.rsplit(".", 1)[-1].lower()
-    if ext not in ("jpg", "jpeg", "png", "gif", "webp"):
+    if ext not in ("jpg", "jpeg", "png", "gif", "webp", "heic", "heif"):
         ext = "jpg"
     return f"{uuid.uuid4().hex}.{ext}"
 
@@ -38,6 +38,12 @@ def _compress_image(uploaded_file):
     Returns an InMemoryUploadedFile ready for storage.
     """
     try:
+        # Register HEIC/HEIF support if available
+        try:
+            from pillow_heif import register_heif_opener
+            register_heif_opener()
+        except ImportError:
+            pass
         img = Image.open(uploaded_file)
         # Preserve EXIF orientation but strip metadata
         original_format = img.format

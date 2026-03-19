@@ -483,7 +483,7 @@ function AlbumDetailView({ album: initialAlbum, onBack, onDeleted }) {
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/jpeg,image/png,image/gif,image/webp"
+        accept="image/jpeg,image/png,image/gif,image/webp,image/heic,image/heif"
         className="hidden"
         onChange={handleFileChange}
       />
@@ -809,7 +809,7 @@ export default function TimelinePage() {
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/jpeg,image/png,image/gif,image/webp"
+        accept="image/jpeg,image/png,image/gif,image/webp,image/heic,image/heif"
         className="hidden"
         onChange={handleFileChange}
       />

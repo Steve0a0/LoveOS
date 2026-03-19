@@ -2,7 +2,14 @@ from rest_framework import serializers
 
 from .models import Memory
 
-ALLOWED_IMAGE_TYPES = {"image/jpeg", "image/png", "image/gif", "image/webp"}
+ALLOWED_IMAGE_TYPES = {
+    "image/jpeg",
+    "image/png",
+    "image/gif",
+    "image/webp",
+    "image/heic",
+    "image/heif",
+}
 MAX_UPLOAD_SIZE = 10 * 1024 * 1024  # 10 MB
 
 
@@ -61,6 +68,12 @@ class MemoryCreateSerializer(serializers.Serializer):
 
         # Verify actual file content with Pillow (not just Content-Type header)
         from PIL import Image
+
+        try:
+            from pillow_heif import register_heif_opener
+            register_heif_opener()
+        except ImportError:
+            pass
 
         try:
             img = Image.open(value)
