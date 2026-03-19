@@ -110,30 +110,37 @@ def memory_list_create(request):
     serializer = MemoryCreateSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
 
-    # Compress large images before saving
-    uploaded_file = _compress_image(serializer.validated_data["image"])
-    # Rename file to a safe UUID-based name to prevent path traversal
-    uploaded_file.name = _safe_filename(uploaded_file.name)
+    try:
+        # Compress large images before saving
+        uploaded_file = _compress_image(serializer.validated_data["image"])
+        # Rename file to a safe UUID-based name to prevent path traversal
+        uploaded_file.name = _safe_filename(uploaded_file.name)
 
-    # Resolve optional album
-    album = None
-    album_id = serializer.validated_data.get("album_id")
-    if album_id:
-        try:
-            album = Album.objects.get(pk=album_id, couple=couple)
-        except Album.DoesNotExist:
-            return Response(
-                {"detail": "Album not found."},
-                status=status.HTTP_404_NOT_FOUND,
-            )
+        # Resolve optional album
+        album = None
+        album_id = serializer.validated_data.get("album_id")
+        if album_id:
+            try:
+                album = Album.objects.get(pk=album_id, couple=couple)
+            except Album.DoesNotExist:
+                return Response(
+                    {"detail": "Album not found."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
 
-    memory = Memory.objects.create(
-        couple=couple,
-        uploaded_by=request.user,
-        image=uploaded_file,
-        caption=serializer.validated_data.get("caption", ""),
-        album=album,
-    )
+        memory = Memory.objects.create(
+            couple=couple,
+            uploaded_by=request.user,
+            image=uploaded_file,
+            caption=serializer.validated_data.get("caption", ""),
+            album=album,
+        )
+    except Exception:
+        logger.exception("memory.create_failed user=%s", request.user.pk)
+        return Response(
+            {"detail": "Image upload failed. Please try again."},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
     logger.info("memory.created user=%s couple=%s memory=%s", request.user.pk, couple.pk, memory.pk)
 
     # Fire Celery task to generate thumbnail asynchronously
