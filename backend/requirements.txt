@@ -1,0 +1,12 @@
+Django>=5.1,<5.2
+djangorestframework>=3.15,<4
+psycopg[binary]>=3.1,<4
+Pillow>=10,<11
+django-cors-headers>=4,<5
+python-dotenv>=1,<2
+celery[redis]>=5.4,<6
+django-celery-beat>=2.6,<3
+redis>=5,<6
+pywebpush>=2,<3
+gunicorn>=22,<23
+whitenoise[brotli]>=6,<7

@@ -1,0 +1,120 @@
+# Render Infrastructure-as-Code blueprint
+# https://render.com/docs/blueprint-spec
+#
+# Deploy: push to GitHub → Render dashboard → New Blueprint Instance → select repo
+
+databases:
+  - name: loveos-db
+    plan: free
+    databaseName: loveos
+    user: loveos
+
+services:
+  # ── Django API ──────────────────────────────────────────────
+  - type: web
+    name: loveos-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: chmod +x build.sh && ./build.sh
+    startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.13.0"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: loveos-db
+          property: connectionString
+      - key: ALLOWED_HOSTS
+        sync: false  # set after deploy, e.g. loveos-api.onrender.com
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false  # e.g. https://loveos-frontend.onrender.com
+      - key: CSRF_TRUSTED_ORIGINS
+        sync: false  # e.g. https://loveos-frontend.onrender.com
+      - key: AUTH_COOKIE_SAMESITE
+        value: "None"  # required for cross-origin cookie auth
+      - key: CELERY_BROKER_URL
+        fromService:
+          name: loveos-redis
+          type: redis
+          property: connectionString
+      - key: CELERY_RESULT_BACKEND
+        fromService:
+          name: loveos-redis
+          type: redis
+          property: connectionString
+      - key: VAPID_PRIVATE_KEY
+        sync: false
+      - key: VAPID_PUBLIC_KEY
+        sync: false
+      - key: VAPID_ADMIN_EMAIL
+        value: "mailto:admin@loveos.app"
+
+  # ── Celery Worker ───────────────────────────────────────────
+  - type: worker
+    name: loveos-worker
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: celery -A config worker -l info
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.13.0"
+      - key: SECRET_KEY
+        fromService:
+          name: loveos-api
+          type: web
+          envVarKey: SECRET_KEY
+      - key: DEBUG
+        value: "False"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: loveos-db
+          property: connectionString
+      - key: CELERY_BROKER_URL
+        fromService:
+          name: loveos-redis
+          type: redis
+          property: connectionString
+      - key: CELERY_RESULT_BACKEND
+        fromService:
+          name: loveos-redis
+          type: redis
+          property: connectionString
+      - key: VAPID_PRIVATE_KEY
+        sync: false
+      - key: VAPID_PUBLIC_KEY
+        sync: false
+      - key: VAPID_ADMIN_EMAIL
+        value: "mailto:admin@loveos.app"
+
+  # ── Next.js Frontend ────────────────────────────────────────
+  - type: web
+    name: loveos-frontend
+    runtime: node
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build && cp -r public .next/standalone/public && cp -r .next/static .next/standalone/.next/static
+    startCommand: node .next/standalone/server.js
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: NEXT_PUBLIC_API_BASE_URL
+        sync: false  # e.g. https://loveos-api.onrender.com/api
+      - key: NEXT_PUBLIC_APP_URL
+        sync: false  # e.g. https://loveos-frontend.onrender.com
+      - key: NEXT_PUBLIC_VAPID_PUBLIC_KEY
+        sync: false
+      - key: PORT
+        value: "3000"
+
+  # ── Redis ───────────────────────────────────────────────────
+  - type: redis
+    name: loveos-redis
+    plan: free
+    maxmemoryPolicy: noeviction
