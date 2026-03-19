@@ -60,6 +60,7 @@ function Lightbox({ src, alt, onClose }) {
 function CameraCapture({ onCapture, onClose }) {
   const videoRef = useRef(null);
   const streamRef = useRef(null);
+  const fallbackRef = useRef(null);
   const [error, setError] = useState("");
   const [ready, setReady] = useState(false);
 
@@ -81,7 +82,8 @@ function CameraCapture({ onCapture, onClose }) {
           videoRef.current.onloadedmetadata = () => setReady(true);
         }
       } catch {
-        setError("Camera not available. Check permissions or use HTTPS.");
+        // getUserMedia failed — use native camera fallback (works on iPhone)
+        setError("native-fallback");
       }
     }
     start();
@@ -109,6 +111,42 @@ function CameraCapture({ onCapture, onClose }) {
       },
       "image/jpeg",
       0.9
+    );
+  }
+
+  function handleFallbackChange(e) {
+    const file = e.target.files?.[0];
+    if (file) onCapture(file);
+  }
+
+  // Native camera fallback for iOS / browsers that block getUserMedia
+  if (error === "native-fallback") {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
+        <div className="relative w-full max-w-md rounded-xl bg-zinc-900 p-6 space-y-4 text-center">
+          <h3 className="text-sm font-medium text-white">Take a Photo</h3>
+          <p className="text-xs text-zinc-400">
+            Camera preview isn&apos;t available in this browser. Tap below to open your camera.
+          </p>
+          <label className="inline-block cursor-pointer rounded-lg bg-pink-600 px-6 py-3 text-sm font-medium text-white hover:bg-pink-500">
+            Open Camera
+            <input
+              ref={fallbackRef}
+              type="file"
+              accept="image/*"
+              capture="environment"
+              className="hidden"
+              onChange={handleFallbackChange}
+            />
+          </label>
+          <button
+            onClick={onClose}
+            className="block mx-auto text-xs text-zinc-400 hover:text-white mt-2"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
     );
   }
 
