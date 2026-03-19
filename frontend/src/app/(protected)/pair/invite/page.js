@@ -46,7 +46,7 @@ export default function InvitePage() {
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center bg-black">
+    <div className="flex flex-1 items-center justify-center bg-zinc-950">
       <div className="w-full max-w-sm space-y-6 px-4">
         <div className="text-center">
           <h1 className="text-2xl font-semibold text-white">Invite your partner</h1>

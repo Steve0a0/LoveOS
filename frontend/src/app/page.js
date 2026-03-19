@@ -15,7 +15,7 @@ export default function Home() {
   }, [user, loading, router]);
 
   return (
-    <div className="flex flex-1 items-center justify-center bg-black">
+    <div className="flex flex-1 items-center justify-center bg-zinc-950">
       <p className="text-zinc-400">Loading…</p>
     </div>
   );

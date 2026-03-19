@@ -26,7 +26,7 @@ export default function PairingSuccessPage() {
   };
 
   return (
-    <div className="flex flex-1 items-center justify-center bg-black">
+    <div className="flex flex-1 items-center justify-center bg-zinc-950">
       <div className="w-full max-w-sm space-y-6 px-4 text-center">
         <div className="text-5xl">🎉</div>
         <h1 className="text-2xl font-semibold text-white">You&apos;re paired!</h1>
@@ -43,7 +43,7 @@ export default function PairingSuccessPage() {
             <div className="flex gap-2 justify-center">
               <button
                 onClick={handleEnable}
-                className="rounded-md bg-pink-600 px-4 py-2 text-sm font-medium text-white hover:bg-pink-500"
+                className="rounded-md bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-500"
               >
                 Enable notifications
               </button>

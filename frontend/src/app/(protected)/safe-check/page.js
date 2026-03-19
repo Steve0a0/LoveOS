@@ -33,7 +33,7 @@ function CheckInButton({ option, onSend, disabled }) {
     <button
       disabled={disabled}
       onClick={() => onSend(option.value)}
-      className="flex flex-1 flex-col items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900 p-4 transition-colors hover:border-pink-500/40 hover:bg-zinc-800 disabled:opacity-50"
+      className="flex flex-1 flex-col items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900 p-4 transition-colors hover:border-purple-500/40 hover:bg-zinc-800 disabled:opacity-50"
     >
       <span className="text-2xl">{option.emoji}</span>
       <span className="text-sm font-medium text-white">{option.label}</span>
@@ -107,7 +107,7 @@ export default function SafeCheckPage() {
   if (!loaded) {
     return (
       <div className="flex flex-1 items-center justify-center">
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-pink-500 border-t-transparent" />
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-purple-500 border-t-transparent" />
       </div>
     );
   }
@@ -140,7 +140,7 @@ export default function SafeCheckPage() {
         onChange={(e) => setMessage(e.target.value)}
         placeholder="Add an optional message…"
         maxLength={300}
-        className="rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-white placeholder-zinc-600 outline-none focus:border-pink-500/50"
+        className="rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-white placeholder-zinc-600 outline-none focus:border-purple-500/50"
       />
 
       {/* History */}

@@ -74,8 +74,8 @@ function DurationPicker({ onStart, starting }) {
             onClick={() => setSelected(opt.value)}
             className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
               selected === opt.value
-                ? "bg-pink-600 text-white"
-                : "border border-zinc-700 text-zinc-300 hover:border-pink-500/40"
+                ? "bg-purple-600 text-white"
+                : "border border-zinc-700 text-zinc-300 hover:border-purple-500/40"
             }`}
           >
             {opt.label}
@@ -85,7 +85,7 @@ function DurationPicker({ onStart, starting }) {
       <button
         disabled={starting}
         onClick={() => onStart(selected)}
-        className="rounded-lg bg-pink-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-pink-500 disabled:opacity-50"
+        className="rounded-lg bg-purple-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-purple-500 disabled:opacity-50"
       >
         {starting ? "Starting…" : "Share my location"}
       </button>
@@ -323,7 +323,7 @@ export default function LiveLocationPage() {
   if (!loaded) {
     return (
       <div className="flex flex-1 items-center justify-center">
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-pink-500 border-t-transparent" />
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-purple-500 border-t-transparent" />
       </div>
     );
   }

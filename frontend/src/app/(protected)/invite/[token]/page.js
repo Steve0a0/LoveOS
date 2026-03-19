@@ -59,14 +59,14 @@ export default function AcceptInvitePage() {
 
   if (loading) {
     return (
-      <div className="flex flex-1 items-center justify-center bg-black">
+      <div className="flex flex-1 items-center justify-center bg-zinc-950">
         <p className="text-zinc-400">Checking invite…</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center bg-black">
+    <div className="flex flex-1 items-center justify-center bg-zinc-950">
       <div className="w-full max-w-sm space-y-6 px-4 text-center">
         {error ? (
           <>

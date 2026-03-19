@@ -34,7 +34,7 @@ function Lightbox({ src, alt, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/90 p-4"
       onClick={onClose}
     >
       <button
@@ -122,13 +122,13 @@ function CameraCapture({ onCapture, onClose }) {
   // Native camera fallback for iOS / browsers that block getUserMedia
   if (error === "native-fallback") {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/80 p-4">
         <div className="relative w-full max-w-md rounded-xl bg-zinc-900 p-6 space-y-4 text-center">
           <h3 className="text-sm font-medium text-white">Take a Photo</h3>
           <p className="text-xs text-zinc-400">
             Camera preview isn&apos;t available in this browser. Tap below to open your camera.
           </p>
-          <label className="inline-block cursor-pointer rounded-lg bg-pink-600 px-6 py-3 text-sm font-medium text-white hover:bg-pink-500">
+          <label className="inline-block cursor-pointer rounded-lg bg-purple-600 px-6 py-3 text-sm font-medium text-white hover:bg-purple-500">
             Open Camera
             <input
               ref={fallbackRef}
@@ -151,7 +151,7 @@ function CameraCapture({ onCapture, onClose }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/80 p-4">
       <div className="relative w-full max-w-md rounded-xl bg-zinc-900 p-4 space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-medium text-white">Camera</h3>
@@ -171,7 +171,7 @@ function CameraCapture({ onCapture, onClose }) {
             autoPlay
             playsInline
             muted
-            className="w-full rounded-lg bg-black aspect-video object-cover"
+            className="w-full rounded-lg bg-zinc-950 aspect-video object-cover"
           />
         )}
 
@@ -308,7 +308,7 @@ function CreateAlbumModal({ onCreated, onClose }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/70 p-4">
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-sm rounded-xl bg-zinc-900 border border-zinc-800 p-5 space-y-4"
@@ -573,7 +573,7 @@ function AlbumDetailView({ album: initialAlbum, onBack, onDeleted }) {
               )}
               <button
                 onClick={() => handleRemovePhoto(photo.id)}
-                className="absolute top-2 right-2 rounded-md bg-black/60 p-1 text-zinc-400 opacity-0 group-hover:opacity-100 hover:text-red-400 transition-opacity"
+                className="absolute top-2 right-2 rounded-md bg-zinc-950/60 p-1 text-zinc-400 opacity-0 group-hover:opacity-100 hover:text-red-400 transition-opacity"
                 title="Remove from album"
               >
                 <TrashIcon className="h-3.5 w-3.5" />

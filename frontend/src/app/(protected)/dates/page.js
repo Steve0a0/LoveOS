@@ -17,7 +17,7 @@ const TYPE_LABELS = Object.fromEntries(
 );
 
 const TYPE_COLORS = {
-  anniversary: "text-rose-400 bg-rose-950",
+  anniversary: "text-purple-400 bg-purple-950",
   birthday: "text-amber-400 bg-amber-950",
   visit: "text-sky-400 bg-sky-950",
   custom: "text-zinc-400 bg-zinc-800",

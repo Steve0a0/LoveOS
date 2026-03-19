@@ -80,7 +80,7 @@ export default function DashboardPage() {
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {/* Relationship days */}
           <DashCard
-            icon={<HeartIcon className="h-4 w-4 text-rose-500" />}
+            icon={<HeartIcon className="h-4 w-4 text-purple-400" />}
             title="Relationship"
           >
             {data.days_together !== null ? (

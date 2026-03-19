@@ -50,7 +50,7 @@ function Toggle({ checked, onChange, disabled }) {
       disabled={disabled}
       onClick={() => onChange(!checked)}
       className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ${
-        checked ? "bg-pink-600" : "bg-zinc-700"
+        checked ? "bg-purple-600" : "bg-zinc-700"
       } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
     >
       <span
@@ -93,7 +93,7 @@ function EditableField({ label, value, onSave, type = "text", options }) {
             <select
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
-              className="rounded border border-zinc-700 bg-zinc-800 px-2 py-1 text-sm text-white outline-none focus:border-pink-500"
+              className="rounded border border-zinc-700 bg-zinc-800 px-2 py-1 text-sm text-white outline-none focus:border-purple-500"
             >
               {options.map((o) => (
                 <option key={o} value={o}>
@@ -106,13 +106,13 @@ function EditableField({ label, value, onSave, type = "text", options }) {
               type={type}
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
-              className="w-40 rounded border border-zinc-700 bg-zinc-800 px-2 py-1 text-sm text-white outline-none focus:border-pink-500"
+              className="w-40 rounded border border-zinc-700 bg-zinc-800 px-2 py-1 text-sm text-white outline-none focus:border-purple-500"
             />
           )}
           <button
             onClick={handleSave}
             disabled={saving}
-            className="text-xs text-pink-400 hover:text-pink-300 disabled:opacity-50"
+            className="text-xs text-purple-400 hover:text-purple-300 disabled:opacity-50"
           >
             Save
           </button>

@@ -42,7 +42,7 @@ const TopBar = memo(function TopBar({ displayName, pathname, onLogout }) {
   return (
     <header className="flex items-center justify-between border-b border-zinc-800 px-4 py-3">
       <Link href="/dashboard" className="flex items-center gap-2">
-        <HeartIcon className="h-5 w-5 text-rose-500" />
+        <HeartIcon className="h-5 w-5 text-purple-400" />
         <span className="text-lg font-semibold">LoveOS</span>
       </Link>
 
@@ -84,7 +84,7 @@ const TopBar = memo(function TopBar({ displayName, pathname, onLogout }) {
 
 const BottomNav = memo(function BottomNav({ pathname }) {
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-zinc-800 bg-black/95 backdrop-blur-sm md:hidden">
+    <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-zinc-800 bg-zinc-950/95 backdrop-blur-sm md:hidden">
       <div className="flex items-center justify-around py-2">
         {MOBILE_NAV.map((item) => {
           const Icon = item.icon;
@@ -120,7 +120,7 @@ export default function ProtectedLayout({ children }) {
 
   if (loading) {
     return (
-      <div className="flex flex-1 items-center justify-center bg-black">
+      <div className="flex flex-1 items-center justify-center bg-zinc-950">
         <p className="text-zinc-400">Loading…</p>
       </div>
     );
@@ -131,7 +131,7 @@ export default function ProtectedLayout({ children }) {
   const paired = user.couple_id !== null;
 
   return (
-    <div className="flex flex-1 flex-col bg-black text-white">
+    <div className="flex flex-1 flex-col bg-zinc-950 text-white">
       <TopBar
         displayName={user.display_name}
         pathname={pathname}
