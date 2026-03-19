@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+const BACKEND_URL = process.env.BACKEND_URL;
+
 const PROTECTED_PATHS = [
   "/dashboard",
   "/notes",
@@ -16,6 +18,16 @@ const AUTH_PATHS = ["/login", "/signup"];
 
 export function middleware(request) {
   const { pathname } = request.nextUrl;
+
+  // Proxy /api/* to Django backend
+  if (pathname.startsWith("/api/")) {
+    // Ensure trailing slash for Django
+    const backendPath = pathname.endsWith("/") ? pathname : pathname + "/";
+    const target = new URL(backendPath, BACKEND_URL);
+    target.search = request.nextUrl.search;
+    return NextResponse.rewrite(target);
+  }
+
   const hasToken = request.cookies.has("auth_token");
 
   // Redirect authenticated users away from auth pages
@@ -33,6 +45,7 @@ export function middleware(request) {
 
 export const config = {
   matcher: [
+    "/api/:path*",
     "/dashboard/:path*",
     "/notes/:path*",
     "/timeline/:path*",
