@@ -4,7 +4,9 @@ async function handler(request, { params }) {
   const { path } = await params;
   const targetPath = path.join("/");
   const url = new URL(request.url);
-  const target = `${BACKEND_URL}/api/${targetPath}${url.search}`;
+  // Preserve trailing slash to avoid Django APPEND_SLASH redirect loops
+  const hasTrailingSlash = url.pathname.endsWith("/");
+  const target = `${BACKEND_URL}/api/${targetPath}${hasTrailingSlash ? "/" : ""}${url.search}`;
 
   const headers = new Headers();
   // Forward safe headers
