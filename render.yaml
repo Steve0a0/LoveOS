@@ -58,7 +58,7 @@ services:
   - type: worker
     name: loveos-worker
     runtime: python
-    plan: free
+    plan: starter
     rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: celery -A config worker -l info
