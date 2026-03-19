@@ -104,8 +104,10 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "20"
+      - key: BACKEND_URL
+        sync: false  # e.g. https://loveos-api.onrender.com
       - key: NEXT_PUBLIC_API_BASE_URL
-        sync: false  # e.g. https://loveos-api.onrender.com/api
+        sync: false  # production: /api (proxied via rewrites), local: http://localhost:8000/api
       - key: NEXT_PUBLIC_APP_URL
         sync: false  # e.g. https://loveos-frontend.onrender.com
       - key: NEXT_PUBLIC_VAPID_PUBLIC_KEY
