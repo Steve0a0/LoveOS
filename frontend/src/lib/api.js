@@ -6,7 +6,11 @@ export async function apiFetch(path, options = {}) {
     ? { ...options.headers }
     : { "Content-Type": "application/json", ...options.headers };
 
-  const res = await fetch(`${API_BASE}${path}`, {
+  // Strip trailing slash to avoid Next.js 308 redirect loops;
+  // the server-side proxy always adds one for Django.
+  const cleanPath = path.endsWith("/") ? path.slice(0, -1) : path;
+
+  const res = await fetch(`${API_BASE}${cleanPath}`, {
     credentials: "include",
     headers,
     ...options,
