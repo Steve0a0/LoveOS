@@ -118,3 +118,4 @@ services:
     name: loveos-redis
     plan: free
     maxmemoryPolicy: noeviction
+    ipAllowList: []  # allow only internal Render services
