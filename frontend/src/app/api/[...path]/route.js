@@ -33,10 +33,11 @@ async function handler(request, { params }) {
 
   const responseHeaders = new Headers();
   for (const [key, value] of res.headers) {
-    // Forward all headers except hop-by-hop ones
-    if (!["transfer-encoding", "connection", "keep-alive"].includes(key.toLowerCase())) {
-      responseHeaders.append(key, value);
+    // Skip hop-by-hop and encoding headers (Node fetch auto-decompresses)
+    if (["transfer-encoding", "connection", "keep-alive", "content-encoding", "content-length"].includes(key.toLowerCase())) {
+      continue;
     }
+    responseHeaders.append(key, value);
   }
 
   return new Response(res.body, {
